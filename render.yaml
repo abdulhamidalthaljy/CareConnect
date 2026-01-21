@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: careconnect
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && npm install && npm run build
+    startCommand: gunicorn -k gevent -w 1 -b 0.0.0.0:$PORT "src.app:create_app()"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: "3.11.0"

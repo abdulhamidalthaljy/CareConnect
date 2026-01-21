@@ -1,0 +1,75 @@
+{% extends 'layout.html' %} {% block title %}Appointments - CareConnect{%
+endblock %} {% block content %}
+<section class="bg-white rounded-lg shadow p-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold">Appointments</h1>
+      <p class="text-sm text-gray-600 mt-1">
+        Review and manage your appointments.
+      </p>
+    </div>
+    <div class="space-x-2 text-sm">
+      <a
+        href="?status=all"
+        class="px-3 py-1 rounded {{ 'bg-indigo-100 text-indigo-700' if current_status=='all' else 'text-gray-600' }}"
+        >All</a
+      >
+      <a
+        href="?status=pending"
+        class="px-3 py-1 rounded {{ 'bg-yellow-100 text-yellow-700' if current_status=='pending' else 'text-gray-600' }}"
+        >Pending</a
+      >
+      <a
+        href="?status=confirmed"
+        class="px-3 py-1 rounded {{ 'bg-green-100 text-green-700' if current_status=='confirmed' else 'text-gray-600' }}"
+        >Confirmed</a
+      >
+      <a
+        href="?status=cancelled"
+        class="px-3 py-1 rounded {{ 'bg-red-100 text-red-700' if current_status=='cancelled' else 'text-gray-600' }}"
+        >Cancelled</a
+      >
+    </div>
+  </div>
+
+  <div class="mt-4 overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead class="text-left text-gray-600">
+        <tr>
+          <th class="p-2">Patient</th>
+          <th class="p-2">Start</th>
+          <th class="p-2">Status</th>
+          <th class="p-2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in appointments %}
+        <tr class="border-t">
+          <td class="p-2">{{ patient_map.get(a.patient_id, a.patient_id) }}</td>
+          <td class="p-2">{{ a.start_time.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td class="p-2 capitalize">{{ a.status }}</td>
+          <td class="p-2">
+            {% if a.status == 'pending' %}
+            <a
+              href="{{ url_for('appointments.confirm_appointment', app_id=a.id) }}"
+              class="text-green-600 mr-3"
+              >Confirm</a
+            >
+            {% endif %}
+            <a
+              href="{{ url_for('appointments.cancel_appointment', app_id=a.id) }}"
+              class="text-red-600"
+              >Cancel</a
+            >
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="4" class="p-4 text-gray-600">No appointments found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

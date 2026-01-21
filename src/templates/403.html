@@ -1,0 +1,31 @@
+{% extends 'layout.html' %} {% block title %}Forbidden - CareConnect{% endblock
+%} {% block content %}
+<div class="min-h-[50vh] flex items-center justify-center">
+  <div class="bg-white rounded-lg shadow p-8 max-w-xl text-center">
+    <h1 class="text-3xl font-bold mb-4">403 — Forbidden</h1>
+    <p class="text-gray-600 mb-6">
+      You don't have permission to access this resource.
+    </p>
+    <div class="flex justify-center gap-3">
+      <a
+        href="{{ url_for('main.index') }}"
+        class="bg-gray-100 text-gray-800 px-4 py-2 rounded-md"
+        >Home</a
+      >
+      {% if current_user.is_authenticated %}
+      <a
+        href="{{ url_for('main.dashboard') }}"
+        class="bg-blue-600 text-white px-4 py-2 rounded-md"
+        >Dashboard</a
+      >
+      {% else %}
+      <a
+        href="{{ url_for('auth.login') }}"
+        class="bg-blue-600 text-white px-4 py-2 rounded-md"
+        >Login</a
+      >
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

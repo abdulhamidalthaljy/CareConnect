@@ -1,0 +1,34 @@
+{# Reusable UI macros for CareConnect. Usage examples: Import in templates: {%
+from 'components/ui.html' import button, link_button, card, alert %} Use button:
+{{ button('Save') }} Use call-card: {% call card('Profile') %}
+<p>Card body here</p>
+{% endcall %} Use alert: {{ alert('Saved successfully', 'success') }} #} {%
+macro button(text, variant='primary', extra='') -%} {%- set base = 'inline-flex
+items-center justify-center px-4 py-2 rounded-md text-sm font-medium
+focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2' -%} {%- if
+variant == 'primary' -%} {%- set cls = base + ' bg-blue-600 text-white
+hover:bg-blue-700 focus-visible:ring-blue-500' -%} {%- elif variant ==
+'secondary' -%} {%- set cls = base + ' bg-gray-100 text-gray-800
+hover:bg-gray-200 focus-visible:ring-gray-300' -%} {%- elif variant == 'danger'
+-%} {%- set cls = base + ' bg-red-600 text-white hover:bg-red-700
+focus-visible:ring-red-500' -%} {%- else -%} {%- set cls = base + ' bg-gray-100
+text-gray-800' -%} {%- endif -%}
+<button class="{{ cls }} {{ extra }}">{{ text }}</button>
+{%- endmacro %} {% macro link_button(url, text, variant='primary', extra='') -%}
+<a href="{{ url }}" class="no-underline">{{ button(text, variant, extra) }}</a>
+{%- endmacro %} {% macro alert(message, variant='info') -%} {%- if variant ==
+'success' -%}
+<div class="p-3 rounded-md bg-green-50 text-green-800 text-sm">
+  {{ message }}
+</div>
+{%- elif variant == 'danger' -%}
+<div class="p-3 rounded-md bg-red-50 text-red-800 text-sm">{{ message }}</div>
+{%- else -%}
+<div class="p-3 rounded-md bg-blue-50 text-blue-800 text-sm">{{ message }}</div>
+{%- endif -%} {%- endmacro %} {%- macro card(title=None) -%}
+<div class="bg-white rounded-lg shadow p-6">
+  {% if title %}
+  <h3 class="text-lg font-semibold mb-3">{{ title }}</h3>
+  {% endif %} {{ caller() }}
+</div>
+{%- endmacro %}

@@ -1,0 +1,45 @@
+{% extends 'layout.html' %} {% block title %}Doctor Dashboard - CareConnect{%
+endblock %} {% block content %}
+<div class="space-y-6">
+  <header class="bg-white rounded-lg shadow p-6">
+    <h1 class="text-2xl font-semibold">Doctor Dashboard</h1>
+    <p class="text-sm text-gray-600 mt-1">
+      Manage your patients and appointments.
+    </p>
+  </header>
+
+  <section class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-lg font-medium mb-3">Patients</h2>
+    <input
+      id="patient-search"
+      class="mt-1 block w-full border rounded-md p-2 mb-4"
+      placeholder="Search patients by username..."
+    />
+    <ul id="patient-list" class="divide-y text-sm">
+      {% for p in patients %}
+      <li class="py-3">
+        <a
+          href="{{ url_for('doctor.view_patient', patient_id=p.id) }}"
+          class="text-blue-600"
+          >{{ p.username }}</a
+        >
+      </li>
+      {% else %}
+      <li class="py-3 text-gray-600">No patients found.</li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+
+<script>
+  document
+    .getElementById("patient-search")
+    ?.addEventListener("input", function (e) {
+      const q = e.target.value.toLowerCase();
+      document.querySelectorAll("#patient-list li").forEach((li) => {
+        const txt = li.textContent.toLowerCase();
+        li.style.display = txt.includes(q) ? "" : "none";
+      });
+    });
+</script>
+{% endblock %}

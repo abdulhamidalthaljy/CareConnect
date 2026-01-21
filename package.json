@@ -1,0 +1,21 @@
+{
+  "name": "CareConnect",
+  "version": "1.0.0",
+  "description": "A mobile web app for connecting caregivers and patients.",
+  "main": "src/app.py",
+  "scripts": {
+    "start": "flask run",
+    "build": "tailwindcss build src/static/css/tailwind.css -o src/static/css/styles.css",
+    "watch": "tailwindcss -i src/static/css/tailwind.css -o src/static/css/styles.css --watch"
+  },
+  "dependencies": {
+    "tailwindcss": "^2.2.19",
+    "postcss": "^8.4.6",
+    "autoprefixer": "^10.4.2"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.1"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
